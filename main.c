@@ -9,14 +9,25 @@ bool game_running = true;
 
 typedef enum {UP, DOWN, LEFT, RIGHT} directions;
 
+
 typedef struct point {
     int x;
     int y;
 } point;
 
+typedef struct case_t   {
+    point coords;
+    bool taken;
+} case_t;
+
+typedef struct territory_t  {
+    case_t cases[10][10];
+} territory_t;
+
 typedef struct snek_t {
     directions direction;
-    point body[10];
+    point body[50];
+    int length;
     int head_index;
     int tail_index;
 } snek_t;
@@ -58,7 +69,7 @@ void move_snek(directions *direction)
 
 void forward(snek_t* snek)
 {
-    if((*snek).tail_index % 10 == 0)
+    if((*snek).tail_index % snek->length == 0)
     {
         (*snek).tail_index = 0;
     }
@@ -90,6 +101,37 @@ void forward(snek_t* snek)
     }
 }
 
+void display_territory(territory_t* territory)
+{
+    for(int i = 0 ; i < 10 ; i++)
+    {
+        for(int j = 0 ; j < 10 ; j++)
+            mvprintw(territory->cases[i][j].coords.y, territory->cases[i][j].coords.x, "O");
+    }
+}
+
+void display_snek(snek_t* snek)
+{
+    for(int i = 0 ; i < snek->length; i++)
+    {
+        mvprintw((*snek).body[i].y, (*snek).body[i].x, "o"); 
+    }
+}
+
+void init_snek(snek_t* snek)
+{
+    snek->direction = DOWN;
+    snek->length = 20;
+    snek->head_index = snek->length-1;
+    snek->tail_index = 0;
+    
+    for(int i = 0 ; i < snek->length ; i++)
+    {
+        snek->body[i].x = 10+i; 
+        snek->body[i].y = 10; 
+    }
+}
+
 int main(int argc, char **argv)
 {
 
@@ -98,14 +140,20 @@ int main(int argc, char **argv)
     int max_y = 0, max_x = 0;
 
     snek_t snek;
-    snek.direction = DOWN;
-    snek.head_index = 9;
-    snek.tail_index = 0;
+    init_snek(&snek);
+
+    territory_t first_land;
+    //init_territory();
     
     for(int i = 0 ; i < 10 ; i++)
     {
-        snek.body[i].x = 10+i; 
-        snek.body[i].y = 10; 
+        for(int j = 0 ; j < 10 ; j++)
+        {
+            first_land.cases[i][j].coords.x = 30+j;
+            first_land.cases[i][j].coords.y = 30+i;
+            first_land.cases[i][j].taken = true;
+
+        }
     }
 
     initscr();
@@ -126,10 +174,8 @@ int main(int argc, char **argv)
 
         forward(&snek);
 
-        for(int i = 0 ; i < 10 ; i++)
-        {
-            mvprintw(snek.body[i].y, snek.body[i].x, "o"); 
-        }
+        display_territory(&first_land);
+        display_snek(&snek);
 
         refresh();
 
