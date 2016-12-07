@@ -69,32 +69,32 @@ void move_snek(directions *direction)
 
 void forward(snek_t* snek)
 {
-    if((*snek).tail_index % snek->length == 0)
+    if(snek->tail_index % snek->length == 0)
     {
-        (*snek).tail_index = 0;
+        snek->tail_index = 0;
     }
 
-    switch((*snek).direction)
+    switch(snek->direction)
     {
         case UP:
-            (*snek).body[(*snek).tail_index].x = (*snek).body[(*snek).head_index].x;
-            (*snek).body[(*snek).tail_index].y = (*snek).body[(*snek).head_index].y - 1;
-            (*snek).head_index = (*snek).tail_index++;
+            snek->body[snek->tail_index].x = snek->body[snek->head_index].x;
+            snek->body[snek->tail_index].y = snek->body[snek->head_index].y - 1;
+            snek->head_index = snek->tail_index++;
             break;
         case DOWN:
-            (*snek).body[(*snek).tail_index].x = (*snek).body[(*snek).head_index].x;
-            (*snek).body[(*snek).tail_index].y = (*snek).body[(*snek).head_index].y + 1;
-            (*snek).head_index = (*snek).tail_index++;
+            snek->body[snek->tail_index].x = snek->body[snek->head_index].x;
+            snek->body[snek->tail_index].y = snek->body[snek->head_index].y + 1;
+            snek->head_index = snek->tail_index++;
             break;
         case LEFT:
-            (*snek).body[(*snek).tail_index].x = (*snek).body[(*snek).head_index].x - 1;
-            (*snek).body[(*snek).tail_index].y = (*snek).body[(*snek).head_index].y;
-            (*snek).head_index = (*snek).tail_index++;
+            snek->body[snek->tail_index].x = snek->body[snek->head_index].x - 1;
+            snek->body[snek->tail_index].y = snek->body[snek->head_index].y;
+            snek->head_index = snek->tail_index++;
             break;
         case RIGHT:
-            (*snek).body[(*snek).tail_index].x = (*snek).body[(*snek).head_index].x + 1;
-            (*snek).body[(*snek).tail_index].y = (*snek).body[(*snek).head_index].y;
-            (*snek).head_index = (*snek).tail_index++;
+            snek->body[snek->tail_index].x = snek->body[snek->head_index].x + 1;
+            snek->body[snek->tail_index].y = snek->body[snek->head_index].y;
+            snek->head_index = snek->tail_index++;
             break;
         default:
             break;
@@ -114,7 +114,7 @@ void display_snek(snek_t* snek)
 {
     for(int i = 0 ; i < snek->length; i++)
     {
-        mvprintw((*snek).body[i].y, (*snek).body[i].x, "o"); 
+        mvprintw(snek->body[i].y, snek->body[i].x, "o"); 
     }
 }
 

@@ -1,5 +1,5 @@
 # Declaration of variables
-
+CC = gcc
 CXXFLAGS = 
 LDFLAGS = -lncurses
 
@@ -24,11 +24,11 @@ print-%: ; @echo $*=$($*)
 
 # Main target
 $(EXEC): $(OBJECTS)
-	$(CXX) $(OBJECTS) $(LDFLAGS)  -o $(EXEC)
+	$(CC) $(OBJECTS) $(LDFLAGS)  -o $(EXEC)
 
 # To obtain object files
 %.o: %.c
-	$(CXX) -c $(CXXFLAGS) $< -o $@
+	$(CC) -c $(CXXFLAGS) $< -o $@
 
 # To remove generated files
 clean:
